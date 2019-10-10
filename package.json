@@ -1,0 +1,9 @@
+{
+  "name": "non-layered-tidy-tree-js",
+  "version": "1.0.0",
+  "description": "Draw non-layered tidy trees in linear time",
+  "main": "index.js",
+  "repository": "https://github.com/stetrevor/non-layered-tidy-tree-js.git",
+  "author": "Michael Wong",
+  "license": "MIT"
+}
