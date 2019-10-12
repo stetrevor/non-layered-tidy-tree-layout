@@ -1,3 +1,3 @@
 import { layout, Tree } from './algorithm'
 
-export default { layout, Tree }
+export { layout, Tree }
