@@ -1,4 +1,4 @@
-# non-layered-tidy-tree-js
+# non-layered-tidy-tree-layout
 
 Draw non-layered tidy trees in linear time.
 
@@ -7,9 +7,9 @@ Draw non-layered tidy trees in linear time.
 ## Getting started
 ### Installation
 ```
-npm install non-layered-tidy-tree-js
+npm install non-layered-tidy-tree-layout
 ```
 Or
 ```
-yarn add non-layered-tidy-tree-js
+yarn add non-layered-tidy-tree-layout
 ```
