@@ -21,21 +21,32 @@ test('Layout class', () => {
     width: 10,
     height: 10,
     children: [
-      {width: 10, height: 10, children: [{width: 150, height: 100}]},
-      {width: 10, height: 10, children: []},
-      {width: 10, height: 10, children: []},
-      {width: 10, height: 10, children: []},
-      {width: 10, height: 20, children: []},
+      {
+        width: 10,
+        height: 10,
+        children: [{ width: 150, height: 10, children: [] }]
+      },
+      { width: 10, height: 10, children: [] },
+      { width: 10, height: 10, children: [] },
+      { width: 10, height: 10, children: [] },
+      { width: 10, height: 20, children: [] }
     ]
   }
   const bb = new BoundingBox(10, 10)
   const layout = new Layout(bb)
-  layout.layout(data)
+  const { size } = layout.layout(data)
+
   expect(data).toEqual(expect.objectContaining({ x: 120, y: 0 }))
   expect(data.children[0]).toEqual(expect.objectContaining({ x: 75, y: 20 }))
   expect(data.children[1]).toEqual(expect.objectContaining({ x: 97.5, y: 20 }))
   expect(data.children[2]).toEqual(expect.objectContaining({ x: 120, y: 20 }))
   expect(data.children[3]).toEqual(expect.objectContaining({ x: 142.5, y: 20 }))
   expect(data.children[4]).toEqual(expect.objectContaining({ x: 165, y: 20 }))
-  expect(data.children[0].children[0]).toEqual(expect.objectContaining({ x: 5, y: 40 }))
+  expect(data.children[0].children[0]).toEqual(
+    expect.objectContaining({ x: 5, y: 40 })
+  )
+
+  expect(size).toEqual(
+    expect.objectContaining({ left: 5, right: 175, top: 0, bottom: 50 })
+  )
 })
