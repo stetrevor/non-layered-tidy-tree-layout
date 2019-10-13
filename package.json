@@ -1,6 +1,6 @@
 {
   "name": "non-layered-tidy-tree-layout",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Draw non-layered tidy trees in linear time",
   "main": "dist/non-layered-tidy-tree-layout.js",
   "module": "src/index.js",
