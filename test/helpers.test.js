@@ -34,7 +34,7 @@ test('Layout class', () => {
   }
   const bb = new BoundingBox(10, 10)
   const layout = new Layout(bb)
-  const { size } = layout.layout(data)
+  const { boundingBox } = layout.layout(data)
 
   expect(data).toEqual(expect.objectContaining({ x: 120, y: 0 }))
   expect(data.children[0]).toEqual(expect.objectContaining({ x: 75, y: 20 }))
@@ -46,7 +46,7 @@ test('Layout class', () => {
     expect.objectContaining({ x: 5, y: 40 })
   )
 
-  expect(size).toEqual(
+  expect(boundingBox).toEqual(
     expect.objectContaining({ left: 5, right: 175, top: 0, bottom: 50 })
   )
 })
