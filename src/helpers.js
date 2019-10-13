@@ -30,7 +30,7 @@ class Layout {
   /**
    * Layout treeData.
    */
-  layoutTreeData(treeData) {
+  layout(treeData) {
     const tree = this.convert(treeData)
     layout(tree)
     this.assignCoordinates(tree, treeData)
