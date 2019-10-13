@@ -33,12 +33,11 @@ class Layout {
   layout(treeData) {
     const tree = this.convert(treeData)
     layout(tree)
-    this.assignCoordinates(tree, treeData)
-    const size = this.getSize(treeData)
 
-    size.left = this.bb.gap / 2
-    size.top = 0
-    return { result: treeData, size }
+    const box = { left: this.bb.gap / 2, right: 0, top: 0, bottom: 0}
+    this.assignLayout(tree, treeData, box)
+
+    return { result: treeData, boundingBox: box }
   }
 
   /**
@@ -77,12 +76,12 @@ class Layout {
   /**
    * Return the width and height needed to draw the tree,
    * without the bounding boxes.
-   * 
+   *
    * Remember after assignCoordinates, the leftest node in the tree
    * already has its x set at BoundingBox.gap / 2. It is the client's
    * responsibility to account for this when drawing.
    */
-  getSize(treeData, box=null) {
+  getSize(treeData, box = null) {
     if (box === null) {
       box = { right: 0, bottom: 0 }
     }
@@ -94,6 +93,22 @@ class Layout {
     }
 
     return box
+  }
+
+  /**
+   * This function does assignCoordinates and getSize in one pass.
+   */
+  assignLayout(tree, treeData, box) {
+    const { x, y } = this.bb.removeBoundingBox(tree.x, tree.y)
+    treeData.x = x
+    treeData.y = y
+
+    box.right = Math.max(box.right, x + treeData.width)
+    box.bottom = Math.max(box.bottom, y + treeData.height)
+
+    for (let i = 0; i < tree.c.length; i++) {
+      this.assignLayout(tree.c[i], treeData.children[i], box)
+    }
   }
 }
 
