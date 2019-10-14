@@ -33,11 +33,9 @@ class Layout {
   layout(treeData) {
     const tree = this.convert(treeData)
     layout(tree)
+    const { boundingBox, result } = this.assignLayout(tree, treeData)
 
-    const box = { left: this.bb.gap / 2, right: 0, top: 0, bottom: 0}
-    this.assignLayout(tree, treeData, box)
-
-    return { result: treeData, boundingBox: box }
+    return { result, boundingBox }
   }
 
   /**
@@ -82,14 +80,19 @@ class Layout {
    * responsibility to account for this when drawing.
    */
   getSize(treeData, box = null) {
+    const { x, y, width, height } = treeData
     if (box === null) {
-      box = { right: 0, bottom: 0 }
+      box = { left: x, right: x + width, top: y, bottom: y + height }
     }
-    box.right = Math.max(box.right, treeData.x + treeData.width)
-    box.bottom = Math.max(box.bottom, treeData.y + treeData.height)
+    box.left = Math.min(box.left, x)
+    box.right = Math.max(box.right, x + width)
+    box.top = Math.min(box.top, y)
+    box.bottom = Math.max(box.bottom, y + height)
 
-    for (const child of treeData.children) {
-      this.getSize(child, box)
+    if (treeData.children) {
+      for (const child of treeData.children) {
+        this.getSize(child, box)
+      }
     }
 
     return box
@@ -98,17 +101,25 @@ class Layout {
   /**
    * This function does assignCoordinates and getSize in one pass.
    */
-  assignLayout(tree, treeData, box) {
+  assignLayout(tree, treeData, box = null) {
     const { x, y } = this.bb.removeBoundingBox(tree.x, tree.y)
     treeData.x = x
     treeData.y = y
 
-    box.right = Math.max(box.right, x + treeData.width)
-    box.bottom = Math.max(box.bottom, y + treeData.height)
+    const { width, height } = treeData
+    if (box === null) {
+      box = { left: x, right: x + width, top: y, bottom: y + height }
+    }
+    box.left = Math.min(box.left, x)
+    box.right = Math.max(box.right, x + width)
+    box.top = Math.min(box.top, y)
+    box.bottom = Math.max(box.bottom, y + height)
 
     for (let i = 0; i < tree.c.length; i++) {
       this.assignLayout(tree.c[i], treeData.children[i], box)
     }
+
+    return { result: treeData, boundingBox: box }
   }
 }
 
