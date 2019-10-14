@@ -29,6 +29,9 @@ class Layout {
 
   /**
    * Layout treeData.
+   * Return modified treeData and the bounding box encompassing all the nodes.
+   * 
+   * See getSize() for more explanation.
    */
   layout(treeData) {
     const tree = this.convert(treeData)
@@ -72,12 +75,11 @@ class Layout {
   }
 
   /**
-   * Return the width and height needed to draw the tree,
-   * without the bounding boxes.
-   *
-   * Remember after assignCoordinates, the leftest node in the tree
-   * already has its x set at BoundingBox.gap / 2. It is the client's
-   * responsibility to account for this when drawing.
+   * Return the bounding box that encompasses all the nodes.
+   * The result has a structure of
+   * { left: number, right: number, top: number, bottom: nubmer}.
+   * This is not the same bounding box concept as the `BoundingBox` class
+   * used to construct `Layout` class.
    */
   getSize(treeData, box = null) {
     const { x, y, width, height } = treeData
