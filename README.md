@@ -114,6 +114,8 @@ In case your data structure are not the same as provided by the example above, y
 
 ## Changelog
 
+### [2.0.1]
+- Fixed bounding box calculation in `Layout.getSize` and `Layout.assignLayout` and `Layout.layout`
 ### [2.0.0]
 - Added `Layout.layout`
 - Removed `Layout.layoutTreeData`
