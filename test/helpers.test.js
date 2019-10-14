@@ -50,3 +50,51 @@ test('Layout class', () => {
     expect.objectContaining({ left: 5, right: 175, top: 0, bottom: 50 })
   )
 })
+
+test('Big root, small child', () => {
+  const t = {
+    id: 0,
+    width: 100,
+    height: 50,
+    children: [{ id: 1, width: 50, height: 50 }]
+  }
+  const l = new Layout(new BoundingBox(0, 0))
+  const { result, boundingBox } = l.layout(t)
+  expect(result).toEqual(expect.objectContaining({ x: -25, y: 0 }))
+  expect(result.children[0]).toEqual(expect.objectContaining({ x: 0, y: 50 }))
+  expect(boundingBox).toEqual(
+    expect.objectContaining({ left: -25, right: 75, top: 0, bottom: 100 })
+  )
+})
+
+describe('Layout.getSize', () => {
+  test('big root, small child', () => {
+    const t = {
+      id: 0,
+      width: 100,
+      height: 50,
+      children: [{ id: 1, width: 50, height: 50 }]
+    }
+    const l = new Layout(new BoundingBox(0, 0))
+    l.layout(t)
+    const bb = l.getSize(t)
+    expect(bb).toEqual(
+      expect.objectContaining({ left: -25, right: 75, top: 0, bottom: 100 })
+    )
+  })
+
+  test('small root, big child', () => {
+    const t = {
+      id: 0,
+      width: 50,
+      height: 50,
+      children: [{ id: 1, width: 100, height: 50 }]
+    }
+    const l = new Layout(new BoundingBox(20, 20))
+    l.layout(t)
+    const bb = l.getSize(t)
+    expect(bb).toEqual(
+      expect.objectContaining({ left: 10, right: 110, top: 0, bottom: 120 })
+    )
+  })
+})
